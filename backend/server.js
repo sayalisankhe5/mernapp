@@ -33,5 +33,13 @@ app.all("*", (req, res) => {
 });
 
 app.use(errorHandler);
-
-app.listen(PORT, () => console.log(`server is listening to ${PORT}`));
+mongoose.connection.once("open", () => {
+  app.listen(PORT, () => console.log(`server is listening to ${PORT}`));
+});
+mongoose.connection.on("error", (err) => {
+  console.log(err);
+  logEvents(
+    `${err.errno}\t${err.code}\t${err.syscall}\t${err.hostname}`,
+    "mongoDBLog.log"
+  );
+});
