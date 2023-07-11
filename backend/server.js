@@ -1,17 +1,19 @@
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3500;
 const path = require("path");
 const cors = require("cors");
+const connectDB = require("./config/dBConn");
+const mongoose = require("mongoose");
 const corsOptions = require("./config/corsOptions");
-const { logger } = require("./middleware/logger");
+const { logger, logEvents } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 
 app.use(logger);
 app.use(cors(corsOptions));
-
+connectDB();
 app.use(express.json());
 app.use(cookieParser());
 
