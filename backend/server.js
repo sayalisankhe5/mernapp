@@ -12,8 +12,9 @@ const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 
 app.use(logger);
-app.use(cors(corsOptions));
 connectDB();
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 
