@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find().select("-password").lean();
-  if (!users) {
+  if (!users?.length) {
     return res.status(400).json({ message: "Users data not found" });
   }
   res.json(users);
@@ -16,12 +16,12 @@ const createNewUser = asyncHandler(async (req, res) => {
   if (!username || !password || !Array.isArray(roles) || !roles.length) {
     return res.status(400).json({ message: "All fields are required" });
   }
-  const duplicate = (await User.find({ username }).lean()).exec();
+  const duplicate = await User.findOne({ username }).lean().exec();
   if (duplicate) {
     return res.status(409).json({ message: "duplicate user present" });
   }
 
-  const hashedPswd = await bcrypt(password, 10);
+  const hashedPswd = await bcrypt.hash(password, 10);
 
   const user = await User.create({ username, password: hashedPswd, roles });
   if (user) {
