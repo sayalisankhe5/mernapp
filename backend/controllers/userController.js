@@ -44,13 +44,13 @@ const updateUser = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  const user = await User.findById({ id }).exec();
+  const user = await User.findById(id).exec();
   if (!user) {
     return res.status(400).json({ message: "User not found" });
   }
 
   const duplicate = await User.findOne({ username }).lean().exec();
-  if (duplicate && duplicate._id.toString() != id) {
+  if (duplicate && duplicate?._id.toString() !== id) {
     return res.status(409).json({ message: "duplicate User found" });
   }
 
@@ -64,7 +64,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
   const updatedUser = await user.save();
 
-  res.json({ message: `User with ${updateUser.username} is updated` });
+  res.json({ message: `${updatedUser.username} is updated` });
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
@@ -74,17 +74,18 @@ const deleteUser = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "User ID is required" });
   }
 
-  const user = await User.findById({ id }).exec();
+  const user = await User.findById(id).exec();
+
   if (!user) {
     return res.status(400).json({ message: "User not found" });
   }
 
-  const note = await Note.findOne({ user: id }).lean().exec();
+  /*const note = await Note.findOne({ user: id }).lean().exec();
   if (note) {
     return res.status(400).json({
       message: "User has notes assigned to them so the user cannot be deleted ",
     });
-  }
+  }*/
 
   const result = await user.deleteOne();
   const reply = `User with username = ${result.username} and id = ${result.id} is deleted`;
