@@ -87,10 +87,8 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 
   const result = await user.deleteOne();
-  if (result) {
-    const reply = `User with username = ${result.username} and id = ${result.id} is deleted`;
-    res.json(reply);
-  }
+  const reply = `User with username = ${result.username} and id = ${result.id} is deleted`;
+  res.json(reply);
 });
 
 module.exports = { getAllUsers, createNewUser, updateUser, deleteUser };
