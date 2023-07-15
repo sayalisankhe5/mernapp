@@ -30,6 +30,10 @@ const createNote = asyncHandler(async (req, res) => {
   }
 });
 const updateNote = asyncHandler(async (req, res) => {});
-const deleteNote = asyncHandler(async (req, res) => {});
+const deleteNote = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+
+  const note = await Note.findById(id).exec();
+});
 
 module.exports = { getAllNotes, createNote, updateNote, deleteNote };
