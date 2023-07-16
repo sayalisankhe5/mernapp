@@ -17,10 +17,10 @@ const createNote = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  //   const existingUser = await User.findById({ _id: user }).lean().exec();
-  //   if (!existingUser) {
-  //     return res.status(400).json({ message: "No such user found" });
-  //   }
+  const existingUser = await User.findById(user).lean().exec();
+  if (!existingUser) {
+    return res.status(400).json({ message: "No such user found" });
+  }
 
   const note = await Note.create({ user, title, text });
   if (!note) {
