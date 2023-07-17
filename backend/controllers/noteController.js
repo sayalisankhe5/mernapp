@@ -40,6 +40,8 @@ const deleteNote = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "No note found" });
   }
   const result = await note.deleteOne();
+
+  const reply = `note with title ${note.title} is deleted`;
 });
 
 module.exports = { getAllNotes, createNote, updateNote, deleteNote };
