@@ -29,7 +29,22 @@ const createNote = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Invalid data" });
   }
 });
-const updateNote = asyncHandler(async (req, res) => {});
+const updateNote = asyncHandler(async (req, res) => {
+const {id,user,title,text,completed} = req.body;
+
+if(!id || !user || !title || !text || typeof completed != "boolean"){
+  return res.status(400).json({message:"All fields are required "});
+
+const note = await Note.findById(id).exec();
+
+if(!note){
+  return res.status(400).json({message:"No such note found"})
+}
+
+}
+
+
+});
 const deleteNote = asyncHandler(async (req, res) => {
   const { id } = req.body;
   if (!id) {
