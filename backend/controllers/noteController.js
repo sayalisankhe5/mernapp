@@ -41,7 +41,8 @@ const deleteNote = asyncHandler(async (req, res) => {
   }
   const result = await note.deleteOne();
 
-  const reply = `note with title ${note.title} is deleted`;
+  const reply = `note with title ${note.title} and Id ${note._id} is deleted`;
+  res.json(reply);
 });
 
 module.exports = { getAllNotes, createNote, updateNote, deleteNote };
