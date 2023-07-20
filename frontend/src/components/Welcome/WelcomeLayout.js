@@ -1,5 +1,7 @@
+import { Outlet } from "react-router-dom";
+
 const WelcomeLayout = () => {
-  return <div>Hello</div>;
+  return <Outlet />;
 };
 
 export default WelcomeLayout;
