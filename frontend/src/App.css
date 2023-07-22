@@ -114,6 +114,9 @@ a:focus-visible {
 }
 .public footer {
   font-size: var(--FONTSIZE);
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: underline;
 }
 
 .public {
