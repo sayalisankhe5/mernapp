@@ -36,3 +36,20 @@ export const notesApiSlice = apiSlice.injectEndpoints({
     }),
   }),
 });
+
+export const { useGetNotesQuery } = notesApiSlice;
+
+export const selectNotesResult = notesAdapter.endpoints.getNotes.select();
+
+const selectNotesData = createSelector(
+  selectNotesResult,
+  (notesResult) => notesResult.data
+);
+
+export const {
+  selectAll: selectAllNotes,
+  selectById: selectNoteById,
+  selectIds: selectNoteIds,
+} = notesAdapter.getSelectors(
+  (state) => selectNotesData(state) ?? initialState
+);
