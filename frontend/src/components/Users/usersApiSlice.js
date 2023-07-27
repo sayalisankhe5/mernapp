@@ -2,7 +2,7 @@ import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import apiSlice from "../../redux/api/apiSlice";
 
 const usersAdapter = createEntityAdapter({});
-const initialState = usersAdapter.initialState();
+const initialState = usersAdapter.getInitialState();
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -39,7 +39,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 
 export const { useGetUsersQuery } = usersApiSlice;
 
-export const selectUsersResult = usersAdapter.endpoints.getUsers.select();
+export const selectUsersResult = usersApiSlice.endpoints.getUsers.select();
 
 const selectUsersData = createSelector(
   selectUsersResult,
