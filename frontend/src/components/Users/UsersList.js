@@ -1,3 +1,4 @@
+import User from "./User";
 import { useGetUsersQuery } from "./usersApiSlice";
 
 const UsersList = () => {
