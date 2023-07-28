@@ -3,7 +3,7 @@ import apiSlice from "../../redux/api/apiSlice";
 
 const notesAdapter = createEntityAdapter({});
 
-const initialState = notesAdapter.initialState();
+const initialState = notesAdapter.getInitialState();
 
 export const notesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
