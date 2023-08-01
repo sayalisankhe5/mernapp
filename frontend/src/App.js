@@ -8,6 +8,10 @@ import DashLayout from "./components/Dashboard/DashLayout";
 import WelcomeUser from "./components/Auth/WelcomeUser";
 import NotesList from "./components/Notes/NotesList";
 import UsersList from "./components/Users/UsersList";
+import EditUser from "./components/Users/Forms/EditUser";
+import NewUser from "./components/Users/Forms/NewUser";
+import EditNote from "./components/Notes/Forms/EditNote";
+import NewNote from "./components/Notes/Forms/NewNote";
 
 function App() {
   return (
@@ -18,8 +22,16 @@ function App() {
 
         <Route path="dash" element={<DashLayout />}>
           <Route index element={<WelcomeUser />} />
-          <Route path="notes" element={<NotesList />}></Route>
-          <Route path="users" element={<UsersList />}></Route>
+          <Route path="users">
+            <Route index element={<UsersList />} />
+            <Route path=":id" element={<EditUser />} />
+            <Route path="new" element={<NewUser />} />
+          </Route>
+          <Route path="notes">
+            <Route index element={<NotesList />} />
+            <Route path=":id" element={<EditNote />} />
+            <Route path="new" element={<NewNote />} />
+          </Route>
         </Route>
       </Route>
     </Routes>
