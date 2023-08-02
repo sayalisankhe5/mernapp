@@ -12,6 +12,7 @@ import EditUser from "./components/Users/Forms/EditUser";
 import NewUser from "./components/Users/Forms/NewUser";
 import EditNote from "./components/Notes/Forms/EditNote";
 import NewNote from "./components/Notes/Forms/NewNote";
+import Prefetch from "./components/Auth/Prefetch";
 
 function App() {
   return (
@@ -20,17 +21,19 @@ function App() {
         <Route index element={<WelcomeWebPage />} />
         <Route path="login" element={<Login />} />
 
-        <Route path="dash" element={<DashLayout />}>
-          <Route index element={<WelcomeUser />} />
-          <Route path="users">
-            <Route index element={<UsersList />} />
-            <Route path=":id" element={<EditUser />} />
-            <Route path="new" element={<NewUser />} />
-          </Route>
-          <Route path="notes">
-            <Route index element={<NotesList />} />
-            <Route path=":id" element={<EditNote />} />
-            <Route path="new" element={<NewNote />} />
+        <Route element={<Prefetch />}>
+          <Route path="dash" element={<DashLayout />}>
+            <Route index element={<WelcomeUser />} />
+            <Route path="users">
+              <Route index element={<UsersList />} />
+              <Route path=":id" element={<EditUser />} />
+              <Route path="new" element={<NewUser />} />
+            </Route>
+            <Route path="notes">
+              <Route index element={<NotesList />} />
+              <Route path=":id" element={<EditNote />} />
+              <Route path="new" element={<NewNote />} />
+            </Route>
           </Route>
         </Route>
       </Route>
