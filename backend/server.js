@@ -1,21 +1,26 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3500;
 const path = require("path");
-const cors = require("cors");
-const connectDB = require("./config/dBConn");
-const mongoose = require("mongoose");
-const corsOptions = require("./config/corsOptions");
 const { logger, logEvents } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const corsOptions = require("./config/corsOptions");
+const connectDB = require("./config/dBConn");
+const mongoose = require("mongoose");
+const PORT = process.env.PORT || 3500;
+
+console.log(process.env.NODE_ENV);
+
+connectDB();
 
 app.use(logger);
-connectDB();
+
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
 app.use(cookieParser());
 
 app.use("/", express.static(path.join(__dirname, "public")));
@@ -29,20 +34,23 @@ app.all("*", (req, res) => {
   if (req.accepts("html")) {
     res.sendFile(path.join(__dirname, "views", "NotFound.html"));
   } else if (req.accepts("json")) {
-    res.json({ message: "Sorry, Not found" });
+    res.json({ message: "404 Not Found" });
   } else {
-    res.type("txt").send("Not found ");
+    res.type("txt").send("404 Not Found");
   }
 });
 
 app.use(errorHandler);
+
 mongoose.connection.once("open", () => {
-  app.listen(PORT, () => console.log(`server is listening to ${PORT}`));
+  console.log("Connected to MongoDB");
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
+
 mongoose.connection.on("error", (err) => {
   console.log(err);
   logEvents(
-    `${err.errno}\t${err.code}\t${err.syscall}\t${err.hostname}`,
+    `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
     "mongoDBLog.log"
   );
 });
