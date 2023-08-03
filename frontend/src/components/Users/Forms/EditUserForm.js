@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 const EditUserForm = ({ user }) => {
-  const USERNAME_REGEX = /^[A-z]{3-20}$/;
-  const PSWD_REGEX = /^[A-z0-9!@#$%]{4-12}$/;
+  const USERNAME_REGEX = /^[A-z]{3,20}$/;
+  const PSWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
   const [username, setUsername] = useState(user.username);
   const [validUsername, setValidUsername] = useState(false);
   const [password, setPassword] = useState("");
