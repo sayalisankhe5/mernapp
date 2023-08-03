@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAddNewUserMutation } from "../usersApiSlice";
 import { ROLES } from "../../../config/roles";
 const NewUser = () => {
-  const USERNAME_REGEX = /^[A-z]{3-20}$/;
-  const PSWD_REGEX = /^[A-z0-9!@#$%]{4-12}$/;
+  const USERNAME_REGEX = /^[A-z]{3,20}$/;
+  const PSWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 
   const [username, setUsername] = useState("");
   const [validUsername, setValidUsername] = useState(false);
