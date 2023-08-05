@@ -3,7 +3,7 @@ import apiSlice from "../../redux/api/apiSlice";
 
 const notesAdapter = createEntityAdapter({
   sortComparer: (a, b) => {
-    return a.completed === b.completed ? 0 : a.completed ? 1 : -1;
+    return a.completed === b.completed ? 0 : b.completed ? 1 : -1;
   },
 });
 
