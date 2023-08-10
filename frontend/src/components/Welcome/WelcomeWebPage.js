@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightLong } from "@fortawesome/free-solid-svg-icons";
 
 const WelcomeWebPage = () => {
   return (
@@ -30,7 +32,10 @@ const WelcomeWebPage = () => {
         <p>Owner: Sandy Davidson</p>
       </main>
       <footer>
-        <Link to="/login">Employee Login</Link>
+        <Link to="/login">
+          Employee Login
+          <FontAwesomeIcon icon={faRightLong} />
+        </Link>
       </footer>
     </section>
   );
