@@ -47,6 +47,7 @@ const Login = () => {
           onChange={handlePasswordChange}
           required
         />
+        <button>Sign In</button>
       </form>
     </section>
   );
