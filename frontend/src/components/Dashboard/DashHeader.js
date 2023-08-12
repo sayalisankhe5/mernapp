@@ -18,6 +18,13 @@ const DashHeader = () => {
   }, [isSuccess]);
   if (isLoading) return <p>Logging out...</p>;
   if (isError) return <p>Error: {error?.data?.message}</p>;
+  if (
+    DASH_REGEX.test(pathname) ||
+    NOTES_REGEX.test(pathname) ||
+    USERS_REGEX.test(pathname)
+  ) {
+    dashClass = 
+  }
   return (
     <header className="dash-header">
       <div className={`dash-header__container${dashClass}`}>
