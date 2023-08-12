@@ -19,15 +19,15 @@ const DashHeader = () => {
   if (isLoading) return <p>Logging out...</p>;
   if (isError) return <p>Error: {error?.data?.message}</p>;
   if (
-    DASH_REGEX.test(pathname) ||
-    NOTES_REGEX.test(pathname) ||
-    USERS_REGEX.test(pathname)
+    !DASH_REGEX.test(pathname) &&
+    !NOTES_REGEX.test(pathname) &&
+    !USERS_REGEX.test(pathname)
   ) {
-    dashClass = 
+    dashClass = "dash-header__container--small";
   }
   return (
     <header className="dash-header">
-      <div className={`dash-header__container${dashClass}`}>
+      <div className={`dash-header__container ${dashClass}`}>
         <Link to="/dash">
           <h1 className="dash-header__title">techNotes</h1>
         </Link>
