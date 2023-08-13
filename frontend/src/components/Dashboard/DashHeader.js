@@ -1,6 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSendLogoutMutation } from "../Auth/authApiSlice";
 import { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const DashHeader = () => {
   const [sendLogout, { isLoading, isSuccess, isError, error }] =
@@ -33,7 +35,13 @@ const DashHeader = () => {
         </Link>
         <nav className="dash-header__nav">
           {/* add nav buttons later */}
-          <button onClick={() => sendLogout()}></button>
+          <button
+            className="icon-button"
+            title="Logout"
+            onClick={() => sendLogout()}
+          >
+            <FontAwesomeIcon icon={faRightFromBracket} />
+          </button>
         </nav>
       </div>
     </header>
