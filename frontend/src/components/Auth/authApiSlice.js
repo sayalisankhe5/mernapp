@@ -1,5 +1,5 @@
 import apiSlice from "../../redux/api/apiSlice";
-import { logout } from "../../redux/authSlice";
+import { logout, setCredentials } from "../../redux/authSlice";
 
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -29,6 +29,15 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
     refresh: builder.mutation({
       query: () => ({ url: "/auth/refresh", method: "GET" }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled();
+          let { authToken } = data;
+          dispatch(setCredentials({ authToken }));
+        } catch (err) {
+          console.log(err);
+        }
+      },
     }),
   }),
 });
