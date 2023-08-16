@@ -22,6 +22,7 @@
   --STATUS-OPEN: firebrick;
   --TABLE-BGCOLOR: #fff;
   --TABLE-COLOR: #000;
+  --INPUT-INVALID: #f00;
   --FONTSIZE: large;
 }
 
@@ -32,6 +33,11 @@
   color: var(--ERROR);
   padding: 0.25em;
   margin-bottom: 0.5em;
+}
+
+.errmsg a:any-link {
+  color: var(--ERROR);
+  text-decoration: underline;
 }
 
 .nowrap {
@@ -66,7 +72,7 @@ body {
   /* background-color: var(--BGCOLOR); */
   background-color: rgb(107, 85, 14);
   color: var(--COLOR);
-  /* background-image: url("./img/_68e01d7a-21e8-484b-a2cd-7c7c67ccf98d.jpg"); */
+  /* background-image: url("./img/background.jpg"); */
   background-image: url("./img/_f59b4767-5104-4b25-89cd-d861f8c854ac.jpg");
   background-size: cover;
   background-position: top right;
@@ -91,8 +97,7 @@ a {
   text-decoration: none;
 }
 
-a,
-a:visited {
+a:any-link {
   color: var(--LINK-COLOR);
 }
 
@@ -109,6 +114,7 @@ a:focus-visible {
   flex-direction: column;
   gap: 1rem;
 }
+
 .public__main p {
   font-size: var(--FONTSIZE);
 }
@@ -156,6 +162,10 @@ a:focus-visible {
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
+}
+
+.dash-header__container--small {
+  max-width: 800px;
 }
 
 .dash-header__nav {
@@ -296,8 +306,8 @@ tr {
 }
 
 .form__input--incomplete {
-  border: 1px solid red;
-  outline: 1px solid red;
+  border: 1px solid var(--INPUT-INVALID);
+  outline: 1px solid var(--INPUT-INVALID);
 }
 
 .form__checkbox {
