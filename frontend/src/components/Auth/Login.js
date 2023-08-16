@@ -3,6 +3,7 @@ import { useLoginMutation } from "./authApiSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setCredentials } from "../../redux/authSlice";
+import usePersist from "../../hooks/usePersist";
 
 const Login = () => {
   const userRef = useRef();
@@ -12,6 +13,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [persist, setPersist] = usePersist();
   const [login, { isLoading }] = useLoginMutation();
   useEffect(() => {
     userRef.current.focus();
@@ -45,6 +47,7 @@ const Login = () => {
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
+  const handlePersistChange = () => setPersist((prev) => !prev);
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
@@ -82,6 +85,16 @@ const Login = () => {
                 required
               />
               <button className="form__submit-button">Sign In</button>
+              <label htmlFor="persistToggle" className="form__persist">
+                <input
+                  className="form__checkbox"
+                  id="persistToggle"
+                  checked={persist}
+                  onChange={handlePersistChange}
+                  type="checkbox"
+                />{" "}
+                Trust this device
+              </label>
             </form>
           </main>
           <footer>
