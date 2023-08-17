@@ -13,7 +13,7 @@ const PersistLogin = () => {
     useRefreshMutation();
 
   useEffect(() => {
-    if (effectRan.current == true && process.env.NODE_ENV != "development") {
+    if (effectRan.current == true || process.env.NODE_ENV != "development") {
       const verifyRefreshToken = async () => {
         try {
           await refresh();
@@ -38,6 +38,7 @@ const PersistLogin = () => {
     content = (
       <p>
         {error?.data?.message}
+        <br />
         <Link to="/login">Back to login</Link>
       </p>
     );
