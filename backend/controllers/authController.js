@@ -21,7 +21,7 @@ const login = asyncHandler(async (req, res) => {
     { UserInfo: { username: foundUser.username, roles: foundUser.roles } },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: "10s",
+      expiresIn: "15m",
     }
   );
 
@@ -29,7 +29,7 @@ const login = asyncHandler(async (req, res) => {
     { username: foundUser.username },
     process.env.REFRESH_TOKEN_SECRET,
     {
-      expiresIn: "20s",
+      expiresIn: "7d",
     }
   );
 
@@ -64,7 +64,7 @@ const refresh = (req, res) => {
       const accessToken = JWT.sign(
         { UserInfo: { username: foundUser.username, roles: foundUser.roles } },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "10s" }
+        { expiresIn: "15m" }
       );
 
       res.json({ accessToken });
