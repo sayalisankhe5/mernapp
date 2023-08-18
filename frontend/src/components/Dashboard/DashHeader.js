@@ -76,29 +76,44 @@ const DashHeader = () => {
       );
     }
   }
+  const errClass = isError ? "errmsg" : "offscreen";
+
+  const logoutButton = (
+    <button className="icon-button" title="Logout" onClick={() => sendLogout()}>
+      <FontAwesomeIcon icon={faRightFromBracket} />
+    </button>
+  );
+
+  let buttonContent;
+  if (isLoading) {
+    buttonContent = <p>Logging out...</p>;
+  } else {
+    buttonContent = (
+      <>
+        {newNoteButton}
+        {newUserButton}
+        {notesListButton}
+        {usersListButton}
+      </>
+    );
+  }
 
   return (
-    <header className="dash-header">
-      <div className={`dash-header__container ${dashClass}`}>
-        <Link to="/dash">
-          <h1 className="dash-header__title">techNotes</h1>
-        </Link>
-        <nav className="dash-header__nav">
-          {newNoteButton}
-          {newUserButton}
-          {notesListButton}
-          {usersListButton}
-          {/* add nav buttons later */}
-          <button
-            className="icon-button"
-            title="Logout"
-            onClick={() => sendLogout()}
-          >
-            <FontAwesomeIcon icon={faRightFromBracket} />
-          </button>
-        </nav>
-      </div>
-    </header>
+    <>
+      {" "}
+      <p className={errClass}>{error?.data?.message}</p>{" "}
+      <header className="dash-header">
+        <div className={`dash-header__container ${dashClass}`}>
+          <Link to="/dash">
+            <h1 className="dash-header__title">techNotes</h1>
+          </Link>
+          <nav className="dash-header__nav">
+            {/* add nav buttons later */}
+            {buttonContent}
+          </nav>
+        </div>
+      </header>
+    </>
   );
 };
 
