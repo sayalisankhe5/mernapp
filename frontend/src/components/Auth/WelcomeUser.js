@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const WelcomeUser = () => {
+  const { username, isManager, isAdmin } = useAuth();
   return (
     <section className="welcome">
-      <h2>Hello user</h2>
+      <h2>Welcome {username}</h2>
       <p>
         <Link to="/dash/notes">View All Notes</Link>
       </p>
