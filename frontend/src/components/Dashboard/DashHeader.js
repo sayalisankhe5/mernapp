@@ -1,5 +1,3 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useSendLogoutMutation } from "../Auth/authApiSlice";
 import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,25 +7,35 @@ import {
   faUserPlus,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+
+import { useSendLogoutMutation } from "../Auth/authApiSlice";
+
 import useAuth from "../../hooks/useAuth";
 
+const DASH_REGEX = /^\/dash(\/)?$/;
+const NOTES_REGEX = /^\/dash\/notes(\/)?$/;
+const USERS_REGEX = /^\/dash\/users(\/)?$/;
+
 const DashHeader = () => {
-  const [sendLogout, { isLoading, isSuccess, isError, error }] =
-    useSendLogoutMutation();
   const { isManager, isAdmin } = useAuth();
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  let dashClass = "";
-  let DASH_REGEX = /^\/dash(\/)$/;
-  let USERS_REGEX = /^\/dash\/users(\/)$/;
-  let NOTES_REGEX = /^\/dash\/notes(\/)$/;
+
+  const [sendLogout, { isLoading, isSuccess, isError, error }] =
+    useSendLogoutMutation();
+
   useEffect(() => {
-    if (isSuccess) {
-      navigate("/");
-    }
-  }, [isSuccess]);
-  if (isLoading) return <p>Logging out...</p>;
-  if (isError) return <p>Error: {error?.data?.message}</p>;
+    if (isSuccess) navigate("/");
+  }, [isSuccess, navigate]);
+
+  const onNewNoteClicked = () => navigate("/dash/notes/new");
+  const onNewUserClicked = () => navigate("/dash/users/new");
+  const onNotesClicked = () => navigate("/dash/notes");
+  const onUsersClicked = () => navigate("/dash/users");
+
+  let dashClass = null;
   if (
     !DASH_REGEX.test(pathname) &&
     !NOTES_REGEX.test(pathname) &&
@@ -36,85 +44,90 @@ const DashHeader = () => {
     dashClass = "dash-header__container--small";
   }
 
-  const newNoteClicked = () => navigate("/dash/notes/new");
-  const newUserClicked = () => navigate("/dash/users/new");
-  const notesListClicked = () => navigate("/dash/notes");
-  const usersListClicked = () => navigate("/dash/users");
-
   let newNoteButton = null;
   if (NOTES_REGEX.test(pathname)) {
     newNoteButton = (
-      <button onClick={newNoteClicked} title="new note">
+      <button
+        className="icon-button"
+        title="New Note"
+        onClick={onNewNoteClicked}
+      >
         <FontAwesomeIcon icon={faFileCirclePlus} />
       </button>
     );
   }
+
   let newUserButton = null;
   if (USERS_REGEX.test(pathname)) {
     newUserButton = (
-      <button title="new user" onClick={newUserClicked}>
-        {" "}
+      <button
+        className="icon-button"
+        title="New User"
+        onClick={onNewUserClicked}
+      >
         <FontAwesomeIcon icon={faUserPlus} />
       </button>
     );
   }
-  let notesListButton;
-  if (!NOTES_REGEX.test(pathname) && pathname.includes("/dash")) {
-    notesListButton = (
-      <button onClick={notesListClicked}>
-        <FontAwesomeIcon icon={faFilePen} />
-      </button>
-    );
-  }
-  let usersListButton;
+
+  let userButton = null;
   if (isManager || isAdmin) {
     if (!USERS_REGEX.test(pathname) && pathname.includes("/dash")) {
-      usersListButton = (
-        <button onClick={usersListClicked}>
+      userButton = (
+        <button className="icon-button" title="Users" onClick={onUsersClicked}>
           <FontAwesomeIcon icon={faUserGear} />
         </button>
       );
     }
   }
-  const errClass = isError ? "errmsg" : "offscreen";
+
+  let notesButton = null;
+  if (!NOTES_REGEX.test(pathname) && pathname.includes("/dash")) {
+    notesButton = (
+      <button className="icon-button" title="Notes" onClick={onNotesClicked}>
+        <FontAwesomeIcon icon={faFilePen} />
+      </button>
+    );
+  }
 
   const logoutButton = (
-    <button className="icon-button" title="Logout" onClick={() => sendLogout()}>
+    <button className="icon-button" title="Logout" onClick={sendLogout}>
       <FontAwesomeIcon icon={faRightFromBracket} />
     </button>
   );
 
+  const errClass = isError ? "errmsg" : "offscreen";
+
   let buttonContent;
   if (isLoading) {
-    buttonContent = <p>Logging out...</p>;
+    buttonContent = <p>Logging Out...</p>;
   } else {
     buttonContent = (
       <>
         {newNoteButton}
         {newUserButton}
-        {notesListButton}
-        {usersListButton}
+        {notesButton}
+        {userButton}
+        {logoutButton}
       </>
     );
   }
 
-  return (
+  const content = (
     <>
-      {" "}
-      <p className={errClass}>{error?.data?.message}</p>{" "}
+      <p className={errClass}>{error?.data?.message}</p>
+
       <header className="dash-header">
         <div className={`dash-header__container ${dashClass}`}>
           <Link to="/dash">
             <h1 className="dash-header__title">techNotes</h1>
           </Link>
-          <nav className="dash-header__nav">
-            {/* add nav buttons later */}
-            {buttonContent}
-          </nav>
+          <nav className="dash-header__nav">{buttonContent}</nav>
         </div>
       </header>
     </>
   );
-};
 
+  return content;
+};
 export default DashHeader;
