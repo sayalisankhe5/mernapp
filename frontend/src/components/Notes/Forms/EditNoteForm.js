@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDeleteNoteMutation, useUpdateNoteMutation } from "../notesApiSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../../../hooks/useAuth";
 const EditNoteForm = ({ note, users }) => {
   const [title, setTitle] = useState(note.title);
   const [text, setText] = useState(note.text);
@@ -31,7 +32,7 @@ const EditNoteForm = ({ note, users }) => {
       </option>
     );
   });
-
+  const { isManager, isAdmin } = useAuth();
   const handleCompletedChange = () => setCompleted((prev) => !prev);
   const canSave = [title, text, user].every(Boolean) && !isLoading;
   const onSaveNoteClicked = async (e) => {
@@ -88,13 +89,15 @@ const EditNoteForm = ({ note, users }) => {
             >
               <FontAwesomeIcon icon={faSave} />
             </button>
-            <button
-              className="icon-button"
-              title="Delete"
-              onClick={onDeleteNoteClicked}
-            >
-              <FontAwesomeIcon icon={faTrashCan} />
-            </button>
+            {(isManager || isAdmin) && (
+              <button
+                className="icon-button"
+                title="Delete"
+                onClick={onDeleteNoteClicked}
+              >
+                <FontAwesomeIcon icon={faTrashCan} />
+              </button>
+            )}
           </div>
         </div>
         <label className="form__label" htmlFor="note-title">
