@@ -9,15 +9,20 @@ const WelcomeUser = () => {
       <p>
         <Link to="/dash/notes">View All Notes</Link>
       </p>
-      <p>
-        <Link to="/dash/users">View All Users</Link>
-      </p>
+
       <p>
         <Link to="/dash/notes/new">Add new Note</Link>
       </p>
-      <p>
-        <Link to="/dash/users/new">Add new User</Link>
-      </p>
+      {(isManager || isAdmin) && (
+        <>
+          <p>
+            <Link to="/dash/users">View All Users</Link>
+          </p>
+          <p>
+            <Link to="/dash/users/new">Add new User</Link>
+          </p>
+        </>
+      )}
     </section>
   );
 };
