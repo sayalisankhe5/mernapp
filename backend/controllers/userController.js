@@ -2,7 +2,10 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const Note = require("../models/Note");
-
+const collationProps = {
+  locale: "en",
+  strength: 2,
+};
 const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find().select("-password").lean();
   if (!users?.length) {
@@ -17,7 +20,10 @@ const createNewUser = asyncHandler(async (req, res) => {
   if (!username || !password || !Array.isArray(roles) || !roles.length) {
     return res.status(400).json({ message: "All fields are required" });
   }
-  const duplicate = await User.findOne({ username }).lean().exec();
+  const duplicate = await User.findOne({ username })
+    .collation(collationProps)
+    .lean()
+    .exec();
   if (duplicate) {
     return res.status(409).json({ message: "duplicate user present" });
   }
