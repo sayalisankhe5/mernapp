@@ -2,6 +2,10 @@ const asyncHandler = require("express-async-handler");
 const Note = require("../models/Note");
 const User = require("../models/User");
 
+const collationProps = {
+  locale: "en",
+  strength: 2,
+};
 const getAllNotes = asyncHandler(async (req, res) => {
   const notes = await Note.find().lean();
 
@@ -28,7 +32,10 @@ const createNote = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "No such user found" });
   }
 
-  const duplicateNote = await Note.findOne({ title }).lean().exec();
+  const duplicateNote = await Note.findOne({ title })
+    .collation(collationProps)
+    .lean()
+    .exec();
   if (duplicateNote) {
     return res.status(400).json({ message: "duplicate note found" });
   }
@@ -56,7 +63,10 @@ const updateNote = asyncHandler(async (req, res) => {
   if (!existingUser) {
     return res.status(400).json({ message: "no such user found" });
   }
-  const duplicateNote = await Note.findOne({ title }).lean().exec();
+  const duplicateNote = await Note.findOne({ title })
+    .collation(collationProps)
+    .lean()
+    .exec();
   if (duplicateNote && duplicateNote?._id.toString() != id) {
     return res.status(409).json({ message: "duplicate note found" });
   }
