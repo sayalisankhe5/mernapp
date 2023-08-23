@@ -55,7 +55,10 @@ const updateUser = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "User not found" });
   }
 
-  const duplicate = await User.findOne({ username }).lean().exec();
+  const duplicate = await User.findOne({ username })
+    .collation(collationProps)
+    .lean()
+    .exec();
   if (duplicate && duplicate?._id.toString() !== id) {
     return res.status(409).json({ message: "duplicate User found" });
   }
