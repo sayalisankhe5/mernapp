@@ -14,8 +14,10 @@ import EditNote from "./components/Notes/Forms/EditNote";
 import NewNote from "./components/Notes/Forms/NewNote";
 import Prefetch from "./components/Auth/Prefetch";
 import PersistLogin from "./components/Auth/PersistLogin";
+import useTitle from "./hooks/useTitle";
 
 function App() {
+  useTitle("Sandy D. Repairs");
   return (
     <Routes>
       <Route path="/" element={<WelcomeLayout />}>
