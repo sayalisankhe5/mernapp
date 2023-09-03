@@ -3,6 +3,7 @@ import usePersist from "../../hooks/usePersist";
 import { Link, Outlet } from "react-router-dom";
 import { useRefreshMutation } from "./authApiSlice";
 import { useEffect, useRef, useState } from "react";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const PersistLogin = () => {
   const [persist] = usePersist();
@@ -33,7 +34,7 @@ const PersistLogin = () => {
     console.log("no persist");
     content = <Outlet />;
   } else if (isLoading) {
-    content = <p>Loading....</p>;
+    content = <PulseLoader color={"#FFF"} />;
   } else if (isError) {
     content = (
       <p>

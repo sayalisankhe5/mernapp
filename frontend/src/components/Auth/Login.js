@@ -4,8 +4,11 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setCredentials } from "../../redux/authSlice";
 import usePersist from "../../hooks/usePersist";
+import { PulseLoader } from "react-spinners/PulseLoader";
+import useTitle from "../../hooks/useTitle";
 
 const Login = () => {
+  useTitle("Employee Login");
   const userRef = useRef();
   const errRef = useRef();
   const dispatch = useDispatch();
@@ -54,7 +57,8 @@ const Login = () => {
   return (
     <>
       {isLoading ? (
-        <p>Loading....</p>
+        //<PulseLoader color={"#FFF"} />
+        <p></p>
       ) : (
         <section className="public">
           <header>
